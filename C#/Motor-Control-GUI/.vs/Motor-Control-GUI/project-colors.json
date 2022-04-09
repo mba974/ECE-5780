@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "431045b5-bc62-455b-85d3-8313cef6ed26": {
+      "ProjectGuid": "431045b5-bc62-455b-85d3-8313cef6ed26",
+      "DisplayName": "Motor-Control-GUI",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
