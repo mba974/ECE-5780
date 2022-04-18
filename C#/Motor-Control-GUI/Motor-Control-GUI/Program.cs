@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +16,20 @@ namespace Motor_Control_GUI
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            var services = new ServiceCollection();
+            ConfigureServices(services);
+            ServiceProvider serviceProvider = services.BuildServiceProvider();
+            var gui = serviceProvider.GetRequiredService<MotorControl>();
+            Application.Run(gui);
+        }
+        private static void ConfigureServices(ServiceCollection services)
+        {
+            services.AddLogging(configure =>
+            {
+                configure.SetMinimumLevel(LogLevel.Debug);
+                configure.AddProvider(new FileLoggerProvider());
+            });
+            services.AddScoped<MotorControl>();
         }
     }
 }
