@@ -55,13 +55,13 @@
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.KPSetText = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.progressBar3 = new System.Windows.Forms.ProgressBar();
+            this.KPBar = new System.Windows.Forms.ProgressBar();
             this.KISetText = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.progressBar2 = new System.Windows.Forms.ProgressBar();
+            this.KIBar = new System.Windows.Forms.ProgressBar();
             this.SetRPMText = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.RPMBar = new System.Windows.Forms.ProgressBar();
             this.ErrorText = new System.Windows.Forms.Label();
             this.SpeedText = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -132,6 +132,7 @@
             // 
             // SerialPortList
             // 
+            this.SerialPortList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SerialPortList.FormattingEnabled = true;
             this.SerialPortList.Items.AddRange(new object[] {
             "COM1",
@@ -152,6 +153,7 @@
             // 
             // SerialBaudrateList
             // 
+            this.SerialBaudrateList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.SerialBaudrateList.FormattingEnabled = true;
             this.SerialBaudrateList.Items.AddRange(new object[] {
             "9600",
@@ -181,7 +183,7 @@
             this.groupBox1.Size = new System.Drawing.Size(200, 221);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Serial Connection";
+            this.groupBox1.Text = "Serial Information";
             // 
             // StatusText
             // 
@@ -244,9 +246,8 @@
             this.RPMText.AutoSize = true;
             this.RPMText.Location = new System.Drawing.Point(14, 35);
             this.RPMText.Name = "RPMText";
-            this.RPMText.Size = new System.Drawing.Size(21, 16);
+            this.RPMText.Size = new System.Drawing.Size(0, 16);
             this.RPMText.TabIndex = 16;
-            this.RPMText.Text = "10";
             // 
             // label4
             // 
@@ -289,6 +290,8 @@
             this.SetKIValue.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.SetKIValue.Value = 101;
             this.SetKIValue.Scroll += new System.EventHandler(this.SetKIValue_Scroll);
+            this.SetKIValue.ValueChanged += new System.EventHandler(this.SetKIValue_ValueChanged);
+            this.SetKIValue.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SetKIValue_MouseUp);
             // 
             // SetKPValue
             // 
@@ -304,6 +307,8 @@
             this.SetKPValue.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.SetKPValue.Value = 112;
             this.SetKPValue.Scroll += new System.EventHandler(this.SetKPValue_Scroll);
+            this.SetKPValue.ValueChanged += new System.EventHandler(this.SetKPValue_ValueChanged);
+            this.SetKPValue.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SetKPValue_MouseUp);
             // 
             // SetRPMValue
             // 
@@ -317,6 +322,8 @@
             this.SetRPMValue.TabIndex = 0;
             this.SetRPMValue.TickStyle = System.Windows.Forms.TickStyle.Both;
             this.SetRPMValue.Scroll += new System.EventHandler(this.SetRPMValue_Scroll);
+            this.SetRPMValue.ValueChanged += new System.EventHandler(this.SetRPMValue_ValueChanged);
+            this.SetRPMValue.MouseUp += new System.Windows.Forms.MouseEventHandler(this.SetRPMValue_MouseUp);
             // 
             // groupBox3
             // 
@@ -333,10 +340,14 @@
             // 
             // ReceivedText
             // 
+            this.ReceivedText.BackColor = System.Drawing.SystemColors.Window;
             this.ReceivedText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ReceivedText.ForeColor = System.Drawing.SystemColors.InfoText;
             this.ReceivedText.Location = new System.Drawing.Point(3, 18);
             this.ReceivedText.Multiline = true;
             this.ReceivedText.Name = "ReceivedText";
+            this.ReceivedText.ReadOnly = true;
+            this.ReceivedText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.ReceivedText.Size = new System.Drawing.Size(363, 774);
             this.ReceivedText.TabIndex = 0;
             // 
@@ -355,10 +366,14 @@
             // 
             // SendText
             // 
+            this.SendText.BackColor = System.Drawing.SystemColors.Window;
             this.SendText.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SendText.ForeColor = System.Drawing.SystemColors.InfoText;
             this.SendText.Location = new System.Drawing.Point(3, 18);
             this.SendText.Multiline = true;
             this.SendText.Name = "SendText";
+            this.SendText.ReadOnly = true;
+            this.SendText.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.SendText.Size = new System.Drawing.Size(363, 774);
             this.SendText.TabIndex = 1;
             // 
@@ -368,13 +383,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox5.Controls.Add(this.KPSetText);
             this.groupBox5.Controls.Add(this.label11);
-            this.groupBox5.Controls.Add(this.progressBar3);
+            this.groupBox5.Controls.Add(this.KPBar);
             this.groupBox5.Controls.Add(this.KISetText);
             this.groupBox5.Controls.Add(this.label9);
-            this.groupBox5.Controls.Add(this.progressBar2);
+            this.groupBox5.Controls.Add(this.KIBar);
             this.groupBox5.Controls.Add(this.SetRPMText);
             this.groupBox5.Controls.Add(this.label8);
-            this.groupBox5.Controls.Add(this.progressBar1);
+            this.groupBox5.Controls.Add(this.RPMBar);
             this.groupBox5.Controls.Add(this.ErrorText);
             this.groupBox5.Controls.Add(this.SpeedText);
             this.groupBox5.Controls.Add(this.label6);
@@ -387,7 +402,7 @@
             this.groupBox5.Size = new System.Drawing.Size(447, 379);
             this.groupBox5.TabIndex = 12;
             this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Display Data";
+            this.groupBox5.Text = "Live Data";
             // 
             // KPSetText
             // 
@@ -403,18 +418,19 @@
             this.label11.AutoSize = true;
             this.label11.Location = new System.Drawing.Point(6, 310);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(25, 16);
+            this.label11.Size = new System.Drawing.Size(69, 16);
             this.label11.TabIndex = 21;
-            this.label11.Text = "KP";
+            this.label11.Text = "Target KP";
             // 
-            // progressBar3
+            // KPBar
             // 
-            this.progressBar3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.KPBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar3.Location = new System.Drawing.Point(6, 330);
-            this.progressBar3.Name = "progressBar3";
-            this.progressBar3.Size = new System.Drawing.Size(435, 23);
-            this.progressBar3.TabIndex = 20;
+            this.KPBar.Location = new System.Drawing.Point(6, 330);
+            this.KPBar.Name = "KPBar";
+            this.KPBar.Size = new System.Drawing.Size(435, 23);
+            this.KPBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.KPBar.TabIndex = 20;
             // 
             // KISetText
             // 
@@ -430,18 +446,19 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(6, 245);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(20, 16);
+            this.label9.Size = new System.Drawing.Size(64, 16);
             this.label9.TabIndex = 18;
-            this.label9.Text = "KI";
+            this.label9.Text = "Target KI";
             // 
-            // progressBar2
+            // KIBar
             // 
-            this.progressBar2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.KIBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar2.Location = new System.Drawing.Point(6, 265);
-            this.progressBar2.Name = "progressBar2";
-            this.progressBar2.Size = new System.Drawing.Size(435, 23);
-            this.progressBar2.TabIndex = 17;
+            this.KIBar.Location = new System.Drawing.Point(6, 265);
+            this.KIBar.Name = "KIBar";
+            this.KIBar.Size = new System.Drawing.Size(435, 23);
+            this.KIBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.KIBar.TabIndex = 17;
             // 
             // SetRPMText
             // 
@@ -457,18 +474,19 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(6, 180);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(57, 16);
+            this.label8.Size = new System.Drawing.Size(80, 16);
             this.label8.TabIndex = 15;
-            this.label8.Text = "SetRPM";
+            this.label8.Text = "Target RPM";
             // 
-            // progressBar1
+            // RPMBar
             // 
-            this.progressBar1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.RPMBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar1.Location = new System.Drawing.Point(6, 200);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(435, 23);
-            this.progressBar1.TabIndex = 14;
+            this.RPMBar.Location = new System.Drawing.Point(6, 200);
+            this.RPMBar.Name = "RPMBar";
+            this.RPMBar.Size = new System.Drawing.Size(435, 23);
+            this.RPMBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
+            this.RPMBar.TabIndex = 14;
             // 
             // ErrorText
             // 
@@ -513,6 +531,7 @@
             this.ErrorBar.Location = new System.Drawing.Point(6, 135);
             this.ErrorBar.Name = "ErrorBar";
             this.ErrorBar.Size = new System.Drawing.Size(435, 23);
+            this.ErrorBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.ErrorBar.TabIndex = 1;
             // 
             // SpeedBar
@@ -522,7 +541,12 @@
             this.SpeedBar.Location = new System.Drawing.Point(6, 70);
             this.SpeedBar.Name = "SpeedBar";
             this.SpeedBar.Size = new System.Drawing.Size(435, 23);
+            this.SpeedBar.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
             this.SpeedBar.TabIndex = 0;
+            // 
+            // SerialCommunicationInfo
+            // 
+            this.SerialCommunicationInfo.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.SerialCommunicationInfo_DataReceived);
             // 
             // MenuStrip
             // 
@@ -594,6 +618,7 @@
             this.RightDir.TabIndex = 0;
             this.RightDir.Text = "Turn Right";
             this.RightDir.UseVisualStyleBackColor = true;
+            this.RightDir.Click += new System.EventHandler(this.RightDir_Click);
             // 
             // LeftDir
             // 
@@ -605,6 +630,7 @@
             this.LeftDir.TabIndex = 1;
             this.LeftDir.Text = "Turn Left";
             this.LeftDir.UseVisualStyleBackColor = true;
+            this.LeftDir.Click += new System.EventHandler(this.LeftDir_Click);
             // 
             // groupBox6
             // 
@@ -699,13 +725,13 @@
         private System.Windows.Forms.ToolStripMenuItem NewItem;
         private System.Windows.Forms.Label KPSetText;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.ProgressBar progressBar3;
+        private System.Windows.Forms.ProgressBar KPBar;
         private System.Windows.Forms.Label KISetText;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ProgressBar progressBar2;
+        private System.Windows.Forms.ProgressBar KIBar;
         private System.Windows.Forms.Label SetRPMText;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ProgressBar progressBar1;
+        private System.Windows.Forms.ProgressBar RPMBar;
         private System.Windows.Forms.Button RightDir;
         private System.Windows.Forms.Button LeftDir;
         private System.Windows.Forms.GroupBox groupBox6;
