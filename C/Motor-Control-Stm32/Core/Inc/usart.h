@@ -6,8 +6,8 @@
 #include "stm32f0xx.h"
 
 extern volatile char Word;
-void USART_TRANSMIT(int16_t Number);
-void usart_Init(void);
-void SEND_MESSAGE(char *GetChar);
-uint8_t USART_READ(void);
+void Transmit_USART(int16_t Value_Transmit);
+void Init_USART(void);
+void SEND_MESSAGE(char *Get_String);
+uint8_t Read_USART(void);
 #endif
