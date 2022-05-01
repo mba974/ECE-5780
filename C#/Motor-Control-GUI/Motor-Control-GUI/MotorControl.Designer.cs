@@ -88,6 +88,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.ResetSystem = new System.Windows.Forms.Button();
+            this.DEVICEID = new System.Windows.Forms.Label();
+            this.DeviceIDText = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SetKIValue)).BeginInit();
@@ -573,6 +575,7 @@
             // 
             // MenuStrip
             // 
+            this.MenuStrip.BackColor = System.Drawing.Color.OldLace;
             this.MenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileItem,
             this.HelpItem});
@@ -711,8 +714,8 @@
             // 
             // groupBox7
             // 
-            this.groupBox7.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.groupBox7.Controls.Add(this.DeviceIDText);
+            this.groupBox7.Controls.Add(this.DEVICEID);
             this.groupBox7.Controls.Add(this.label10);
             this.groupBox7.Controls.Add(this.label7);
             this.groupBox7.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -754,10 +757,29 @@
             this.ResetSystem.UseVisualStyleBackColor = true;
             this.ResetSystem.Click += new System.EventHandler(this.ResetSystem_Click);
             // 
+            // DEVICEID
+            // 
+            this.DEVICEID.AutoSize = true;
+            this.DEVICEID.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DEVICEID.Location = new System.Drawing.Point(6, 45);
+            this.DEVICEID.Name = "DEVICEID";
+            this.DEVICEID.Size = new System.Drawing.Size(71, 16);
+            this.DEVICEID.TabIndex = 3;
+            this.DEVICEID.Text = "Device ID:";
+            // 
+            // DeviceIDText
+            // 
+            this.DeviceIDText.AutoSize = true;
+            this.DeviceIDText.Location = new System.Drawing.Point(83, 45);
+            this.DeviceIDText.Name = "DeviceIDText";
+            this.DeviceIDText.Size = new System.Drawing.Size(0, 16);
+            this.DeviceIDText.TabIndex = 4;
+            // 
             // MotorControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.OldLace;
             this.ClientSize = new System.Drawing.Size(1467, 851);
             this.Controls.Add(this.groupBox8);
             this.Controls.Add(this.groupBox7);
@@ -857,6 +879,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Button ResetSystem;
+        private System.Windows.Forms.Label DeviceIDText;
+        private System.Windows.Forms.Label DEVICEID;
     }
 }
 

@@ -29,12 +29,13 @@ namespace Motor_Control_GUI
         private string ReadSpeed;
         private string ReadError;
         private string ReadRo;
-
+        private string ReadID;
         private DateTime LastReceive;
         private const int FreqLimit = 20;
         private UInt32 NewSpeedValue;
         private UInt32 NewErrorValue;
-        public  MotorControl(ILogger<MotorControl> logger)
+        private readonly string FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Save.txt");
+        public MotorControl(ILogger<MotorControl> logger)
         {
             _logger = logger;
             InitializeComponent();
@@ -55,12 +56,12 @@ namespace Motor_Control_GUI
             LoadConnection.ForeColor = Color.Green;
             LoadData.ForeColor = Color.Red;
         }
-        
-            private  void GetConnectionInfo()
+
+        private void GetConnectionInfo()
         {
-                SerialCommunicationInfo.PortName = SerialPortList.Text;
-                SerialCommunicationInfo.BaudRate = Convert.ToInt32(SerialBaudrateList.Text);
-                SerialCommunicationInfo.Open();
+            SerialCommunicationInfo.PortName = SerialPortList.Text;
+            SerialCommunicationInfo.BaudRate = Convert.ToInt32(SerialBaudrateList.Text);
+            SerialCommunicationInfo.Open();
         }
         private void SerialCommunicationInfo_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
@@ -68,36 +69,34 @@ namespace Motor_Control_GUI
             {
                 ReadSerialData = SerialCommunicationInfo.ReadLine();
                 this.BeginInvoke(new EventHandler(ReadReceivedData));
-
             }
             catch
             {
- 
-
             }
         }
         private void ReadReceivedData(object sender, EventArgs e)
         {
             try
             {
-             
-                if (StartSerial) {
+
+                if (StartSerial)
+                {
                     if (ReadSerialData.Any())
                     {
                         TimeSpan Interval = (DateTime.Now - LastReceive);
                         LastReceive = DateTime.Now;
-                        sbyte DeleteSpeed = (sbyte)ReadSerialData.IndexOf("speed:");
-                        sbyte DeleteError = (sbyte)ReadSerialData.IndexOf("error:");
-                        sbyte Deletero = (sbyte)ReadSerialData.IndexOf("ro:");
-
-
+                        sbyte DeleteSpeed =  (sbyte)ReadSerialData.IndexOf("speed:");
+                        sbyte DeleteError =  (sbyte)ReadSerialData.IndexOf("error:");
+                        sbyte Deletero =     (sbyte)ReadSerialData.IndexOf("rotat:");
+                        sbyte Deletedevice = (sbyte)ReadSerialData.IndexOf("devic:");
                         ReadSpeed = (DeleteSpeed >= 0) ? ReadSerialData.Substring(0, DeleteSpeed) : ReadSerialData;
                         ReadError = (DeleteError >= 0) ? ReadSerialData.Substring(DeleteSpeed + 6, (DeleteError - DeleteSpeed) - 6) : ReadSerialData;
-                        ReadRo = (Deletero >= 0) ? ReadSerialData.Substring(DeleteError + 6, (Deletero - DeleteError) - 6) : ReadSerialData;
+                        ReadRo    = (Deletero >= 0)    ? ReadSerialData.Substring(DeleteError + 6, (Deletero - DeleteError) - 6) : ReadSerialData;
+                        ReadID    = (Deletedevice >= 0) ? ReadSerialData.Substring(Deletero   + 6, (Deletedevice - Deletero) - 6) : ReadSerialData;
 
                         _ = UInt32.TryParse(ReadSpeed, out NewSpeedValue);
                         _ = UInt32.TryParse(ReadError, out NewErrorValue);
-                        if (Interval.Milliseconds > 50)
+                        if (Interval.Milliseconds > 0)
                         {
                             Thread.Sleep(Interval.Milliseconds > FreqLimit ? FreqLimit : Interval.Milliseconds);
                         }
@@ -106,8 +105,9 @@ namespace Motor_Control_GUI
                         SpeedBar.Value = (int)NewSpeedValue;
                         ErrorBar.Value = (int)NewErrorValue;
                         SpeedText.Text = NewSpeedValue.ToString();
-                        ErrorText.Text = NewErrorValue.ToString();
-                        label7.Text = ReadRo+"°";
+                        ErrorText.Text = NewErrorValue.ToString() + "%";
+                        label7.Text = ReadRo + "°";
+                        DeviceIDText.Text = ReadID;
                         SpeedBar.ForeColor = NewSpeedValue > 50 ? Color.DarkGreen : Color.Green;
                         ErrorBar.ForeColor = NewErrorValue > 5 ? Color.Red : Color.Green;
                     }
@@ -164,7 +164,7 @@ namespace Motor_Control_GUI
                 LoadConnection.Value = 0;
                 UpdateReceivedText("Error couldn't connect to the serial");
             }
-            }
+        }
         private async void DisconnectButton_Click(object sender, EventArgs e)
         {
             try
@@ -222,20 +222,17 @@ namespace Motor_Control_GUI
        });
         private void UpdateSendText(string IncomeData) => this.Invoke((MethodInvoker)delegate
         {
-                SendText.AppendText($"{IncomeData}{Environment.NewLine}"); 
+            SendText.AppendText($"{IncomeData}{Environment.NewLine}");
         });
         private void UpdateFileText(string IncomeData) => this.Invoke((MethodInvoker)delegate
         {
             _logger.LogDebug($" {IncomeData}");
         });
-        private void SendToStm32(string IncomeData) => this.Invoke((MethodInvoker)async delegate
+        private void SendToStm32(string IncomeData) => this.Invoke((MethodInvoker)delegate
         {
-           
-                LoadData.Value = 100;
-                SerialCommunicationInfo.Write(IncomeData);
-                LoadData.Value = 0;
-            
-       
+            LoadData.Value = 100;
+            SerialCommunicationInfo.Write(IncomeData);
+            LoadData.Value = 0;
         });
         private void SerialPortList_SelectedIndexChanged(object sender, EventArgs e)
         => ButtonStatus = SerialPortList.SelectedItem != null && !string.IsNullOrEmpty(SerialPortList.SelectedItem.ToString());
@@ -313,8 +310,8 @@ namespace Motor_Control_GUI
             UpdateSendText("Set direction to right");
             UpdateFileText($"Set direction to right");
             RightDir.BackColor = Color.YellowGreen;
-            LeftDir.BackColor  = Color.Red;
-            NoDir.BackColor    = Color.Red;
+            LeftDir.BackColor = Color.Red;
+            NoDir.BackColor = Color.Red;
         }
         private void LeftDir_Click(object sender, EventArgs e)
         {
@@ -322,7 +319,7 @@ namespace Motor_Control_GUI
             UpdateSendText("Set direction to left");
             UpdateFileText($"Set direction to left");
             RightDir.BackColor = Color.Red;
-            NoDir.BackColor    = Color.Red;
+            NoDir.BackColor = Color.Red;
             LeftDir.BackColor = Color.YellowGreen;
         }
         private void NoDir_Click(object sender, EventArgs e)
@@ -331,8 +328,8 @@ namespace Motor_Control_GUI
             UpdateSendText("Set direction to stop");
             UpdateFileText($"Set direction to stop");
             RightDir.BackColor = Color.Red;
-            LeftDir.BackColor  = Color.Red;
-            NoDir.BackColor    = Color.YellowGreen;
+            LeftDir.BackColor = Color.Red;
+            NoDir.BackColor = Color.YellowGreen;
         }
         private void ResetSystem_Click(object sender, EventArgs e)
         {
@@ -364,6 +361,9 @@ namespace Motor_Control_GUI
         }
         private void SaveItem_Click(object sender, EventArgs e)
         {
+                StreamWriter writer = new StreamWriter(this.FileName);
+                writer.Write($"{DateTime.Now}: {ReceivedText.Text}{Environment.NewLine}");
+                writer.Close();
         }
         private async void ExitItem_Click(object sender, EventArgs e)
         {
@@ -404,6 +404,5 @@ namespace Motor_Control_GUI
               "\r\rMotor Control GUI " +
               "\rVersion 1.0\rMohammed Al-heidous\rU1188594\r2022");
         }
-
     }
 }
