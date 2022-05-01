@@ -9,29 +9,29 @@
  *  Global Variable and Type Declarations
  *  -------------------------------------------------------------------------------------------------------------
  */
-extern volatile int16_t error_integral;    // Integrated error signal
-extern volatile uint8_t duty_cycle;    // Output PWM duty cycle
-extern volatile int16_t target_rpm;    // Desired speed target
-extern volatile int16_t motor_speed;   // Measured motor speed
-extern volatile int8_t adc_value;      // ADC measured motor current
-extern volatile int16_t error;         // Speed error signal
+extern volatile int16_t Error_Integral;    // Integrated error signal
+extern volatile uint8_t Duty_Cycle;    // Output PWM duty cycle
+extern volatile int16_t Target_Rpm;    // Desired speed target
+extern volatile int16_t Motor_Speed;   // Measured motor speed
+extern volatile int16_t Error;         // Speed error signal
 extern volatile uint8_t Kp;            // Proportional gain
 extern volatile uint8_t Ki;            // Integral gain
 extern volatile uint8_t Direction;     // Motor Direction
 extern volatile uint8_t Out_Put_Speed ;
+extern volatile int16_t Output;
 /* -------------------------------------------------------------------------------------------------------------
  *  Motor Control and Initialization Functions
  * -------------------------------------------------------------------------------------------------------------
  */
 
 // Sets up the entire motor drive system
-void motor_init(void);
+void Init_MOTOR(void);
 
 // Set the duty cycle of the PWM, accepts (0-100)
-void pwm_setDutyCycle(uint8_t duty);
+void PWM_DUTY_CYCLE(uint8_t Duty);
 
 // PI control code is called within a timer interrupt
-void PI_update(void);
+void PI_LOOP(void);
 
 
 /* -------------------------------------------------------------------------------------------------------------
@@ -40,14 +40,11 @@ void PI_update(void);
  */
 
 // Sets up the PWM and direction signals to drive the H-Bridge
-void pwm_init(void);
+void Init_PWM(void);
 
 // Sets up encoder interface to read motor speed
-void encoder_init(void);
+void Init_ENCODER(void);
 
-// Sets up ADC to measure motor current
-//void ADC_init(void);
-// Sets up i2c2 to measure motor tempture
 
 
 #endif /* MOTOR_H_ */

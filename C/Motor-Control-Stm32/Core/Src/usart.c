@@ -1,20 +1,20 @@
 #include "usart.h"
 #include "registers.h"
+#include "motor.h"
 
 volatile char Word = 0;
 
-void Transmit_USART(int16_t Value_Transmit)
+void Transmit_USART(int32_t Value_Transmit)
 {
 char buffer[64];
 snprintf(buffer,64,"%d",Value_Transmit);
 int i = 0;
 while (buffer[i] != '\0') {
 while (!(STATUS_REG_SERIAL3 & (0x1UL <<7U))){};
-SEND_SERIAL3  = buffer[i++];
+
+	SEND_SERIAL3  = buffer[i++];
 }
 }
-
-
 
 void SEND_MESSAGE(char *Get_String)
 {
@@ -37,7 +37,7 @@ Word = Read_USART();
 
 if(Word <= 0x64)
 {
-target_rpm = Word;
+Target_Rpm = Word;
 Word = 0;
 }
 
@@ -81,6 +81,7 @@ Word = 0;
 
 void Init_USART(void)
 {
+HAL_Init();
 AHB |= (0x1UL << 19U);
 APB |= (0x1UL << 18U);
 BAUDRATE_SERIAL3 = 8000000/115200;
@@ -90,6 +91,6 @@ CONTROL_REG_USART_3_1 |=(0x1UL << 0U);
 CONTROL_REG_USART_3_1 |= (0x1UL << 5U);
 MODC |= (0x1UL << 9U) | (0x1UL << 11U);
 MODC &= ~(0x1UL << 8U) | (0x1UL << 10U);
-ALTERNATE_FUNCC |= (0x1UL << 16U) | (0x1UL << 20U);
+ALTERNATE_FUNCC_0 |= (0x1UL << 16U) | (0x1UL << 20U);
 NVIC_EnableIRQ(USART3_4_IRQn);
 }

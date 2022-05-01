@@ -1,9 +1,6 @@
 motor-control-stm32\main.o: ../Core/Src/main.c
-motor-control-stm32\main.o: ../Core/Inc/main.h
-motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h
-motor-control-stm32\main.o: ../Core/Inc/stm32f0xx_hal_conf.h
-motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h
-motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h
+motor-control-stm32\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+motor-control-stm32\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 motor-control-stm32\main.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h
 motor-control-stm32\main.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f072xb.h
 motor-control-stm32\main.o: ../Drivers/CMSIS/Include/core_cm0.h
@@ -13,6 +10,10 @@ motor-control-stm32\main.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 motor-control-stm32\main.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
 motor-control-stm32\main.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/system_stm32f0xx.h
 motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h
+motor-control-stm32\main.o: ../Core/Inc/stm32f0xx_hal_conf.h
+motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h
+motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h
+motor-control-stm32\main.o: ../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h
 motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
 motor-control-stm32\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
 motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc_ex.h
@@ -28,3 +29,8 @@ motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2
 motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c_ex.h
 motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h
 motor-control-stm32\main.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h
+motor-control-stm32\main.o: ../Core/Inc/motor.h
+motor-control-stm32\main.o: ../Core/Inc/usart.h
+motor-control-stm32\main.o: ../Core/Inc/i2c.h
+motor-control-stm32\main.o: ../Core/Inc/led.h
+motor-control-stm32\main.o: ../Core/Inc/registers.h

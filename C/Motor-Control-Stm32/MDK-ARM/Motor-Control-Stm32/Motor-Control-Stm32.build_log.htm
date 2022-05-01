@@ -22,34 +22,17 @@ Dialog DLL:      TARMCM1.DLL V1.14.4.0
  
 <h2>Project:</h2>
 C:\Users\mba90\Desktop\ECE-5780\C\Motor-Control-Stm32\MDK-ARM\Motor-Control-Stm32.uvprojx
-Project File Date:  04/24/2022
+Project File Date:  04/30/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Motor-Control-Stm32'
-compiling usart.c...
-../Core/Inc/registers.h(7): warning:  #47-D: incompatible redefinition of macro "I2C2"  (declared at line 730 of "../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f072xb.h")
-  #define I2C2               0x40005800UL
-..\Core\Src\usart.c(40): error:  #20: identifier "target_rpm" is undefined
-  target_rpm = Word;
-..\Core\Src\usart.c(46): error:  #20: identifier "Ki" is undefined
-  Ki = Word - 0x65;
-..\Core\Src\usart.c(52): error:  #20: identifier "Kp" is undefined
-  Kp = Word - 0x70;
-..\Core\Src\usart.c(58): error:  #20: identifier "Direction" is undefined
-  Direction =  0x0;
-..\Core\Src\usart.c(64): error:  #20: identifier "Direction" is undefined
-  Direction =  0x1;
-..\Core\Src\usart.c(70): error:  #20: identifier "Direction" is undefined
-  Direction =  0x2;
-..\Core\Src\usart.c(95): warning:  #1-D: last line of file ends without a newline
-  }
-..\Core\Src\usart.c: 2 warnings, 6 errors
-compiling i2c.c...
-../Core/Inc/registers.h(7): warning:  #47-D: incompatible redefinition of macro "I2C2"  (declared at line 730 of "../Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f072xb.h")
-  #define I2C2               0x40005800UL
-..\Core\Src\i2c.c: 1 warning, 0 errors
-"Motor-Control-Stm32\Motor-Control-Stm32.axf" - 6 Error(s), 3 Warning(s).
+compiling main.c...
+compiling led.c...
+linking...
+Program Size: Code=2784 RO-data=224 RW-data=44 ZI-data=1028  
+FromELF: creating hex file...
+"Motor-Control-Stm32\Motor-Control-Stm32.axf" - 0 Error(s), 0 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -73,8 +56,7 @@ Package Vendor: Keil
 
    * Component: ARM::CMSIS:CORE:5.5.0
       Include file:  CMSIS\Core\Include\tz_context.h
-Target not created.
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

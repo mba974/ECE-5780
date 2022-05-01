@@ -4,10 +4,9 @@
 #include <stdlib.h>
 #include "stm32f0xx.h"
 
-extern  volatile short OutX   ;    // Speed error signal
-extern volatile  short OutY  ;        // Proportional gain
-extern volatile  long count  ;        // Proportional gain
+extern volatile short Angle_Degrees;
+extern volatile short Convert_Value;
 
-void led_init(void);
-void led(void);
+void Init_LED(void);
+void LED(void);
 #endif

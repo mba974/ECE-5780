@@ -31,3 +31,4 @@ motor-control-stm32\usart.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i
 motor-control-stm32\usart.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr.h
 motor-control-stm32\usart.o: ../Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_pwr_ex.h
 motor-control-stm32\usart.o: ../Core/Inc/registers.h
+motor-control-stm32\usart.o: ../Core/Inc/motor.h
