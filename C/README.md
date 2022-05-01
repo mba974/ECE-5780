@@ -9,7 +9,7 @@ This file directory containing stm32 projec using C language
 |VSS               |      3.3V        |
 |Ground            |      GND         |
 
-|   ANGEL SENSOR   |    PIN NUMBER    |
+|   USART          |    PIN NUMBER    |
 |:----------------:|:----------------:|
 |RXD               |      PC4         |
 |RXD               |      PC5         |
