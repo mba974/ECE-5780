@@ -1,4 +1,12 @@
-﻿using Microsoft.Extensions.Logging;
+﻿/// <summary> 
+/// Author:   Mohammed Alheidous
+/// Partner:  None
+/// Date:      5-1-2022
+/// Course:     ECC-5780
+/// Copyright:  Mohammed Alheidous- This work may not be copied for use in Academic Coursework
+/// 
+/// </summary>
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +22,10 @@ using System.IO;
 using System.Diagnostics;
 namespace Motor_Control_GUI
 {
+    /// <summary>
+    /// This class will work with STM32 hardware code to provide USART communication
+    /// to contolr decoder motor
+    /// </summary>
     public partial class MotorControl : Form
     {
         private readonly ILogger<MotorControl> _logger;
@@ -35,6 +47,10 @@ namespace Motor_Control_GUI
         private UInt32 NewSpeedValue;
         private UInt32 NewErrorValue;
         private readonly string FileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Save.txt");
+        /// <summary>
+        /// This method to init the variables
+        /// </summary>
+        /// <param name="logger"></param>
         public MotorControl(ILogger<MotorControl> logger)
         {
             _logger = logger;
@@ -56,13 +72,20 @@ namespace Motor_Control_GUI
             LoadConnection.ForeColor = Color.Green;
             LoadData.ForeColor = Color.Red;
         }
-
+        /// <summary>
+        /// This method to USART informations
+        /// </summary>
         private void GetConnectionInfo()
         {
             SerialCommunicationInfo.PortName = SerialPortList.Text;
             SerialCommunicationInfo.BaudRate = Convert.ToInt32(SerialBaudrateList.Text);
             SerialCommunicationInfo.Open();
         }
+        /// <summary>
+        /// This method to handle recevied message from USART
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SerialCommunicationInfo_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             try
@@ -74,6 +97,12 @@ namespace Motor_Control_GUI
             {
             }
         }
+        /// <summary>
+        /// This method to ensure where each meesage should go & analyzing the income data from
+        /// Stm32 and sp
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ReadReceivedData(object sender, EventArgs e)
         {
             try
@@ -121,6 +150,11 @@ namespace Motor_Control_GUI
                 UpdateReceivedText(ex.ToString());
             }
         }
+        /// <summary>
+        /// This method to connect to SerialPort
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ConnectButton_Click(object sender, EventArgs e)
         {
             try
@@ -165,6 +199,11 @@ namespace Motor_Control_GUI
                 UpdateReceivedText("Error couldn't connect to the serial");
             }
         }
+        /// <summary>
+        /// This method to disconnect the SerialPort
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void DisconnectButton_Click(object sender, EventArgs e)
         {
             try
@@ -206,9 +245,6 @@ namespace Motor_Control_GUI
                     ErrorText.Text = "0";
                     SpeedBar.Value = 0;
                     ErrorBar.Value = 0;
-                    RPMBar.Value = 0;
-                    KIBar.Value = 0;
-                    KPBar.Value = 0;
                 }
             }
             catch
@@ -216,18 +252,35 @@ namespace Motor_Control_GUI
                 UpdateReceivedText("Error check the correct port");
             }
         }
+        /// <summary>
+        /// This method to display received message from the STM32
+        /// </summary>
+        /// <param name="IncomeData"></param>
         private void UpdateReceivedText(string IncomeData) => this.Invoke((MethodInvoker)delegate
        {
            ReceivedText.AppendText($"{IncomeData}{Environment.NewLine}");
        });
+        /// <summary>
+        /// This method to display the data walready sent to stm32
+        /// </summary>
+        /// <param name="IncomeData"></param>
         private void UpdateSendText(string IncomeData) => this.Invoke((MethodInvoker)delegate
         {
             SendText.AppendText($"{IncomeData}{Environment.NewLine}");
         });
+        /// <summary>
+        /// This method to auto save the data that send to stm32
+        /// </summary>
+        /// <param name="IncomeData"></param>
         private void UpdateFileText(string IncomeData) => this.Invoke((MethodInvoker)delegate
         {
             _logger.LogDebug($" {IncomeData}");
         });
+        /// <summary>
+        /// This method to enable coonection button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SendToStm32(string IncomeData) => this.Invoke((MethodInvoker)delegate
         {
             LoadData.Value = 100;
@@ -236,6 +289,11 @@ namespace Motor_Control_GUI
         });
         private void SerialPortList_SelectedIndexChanged(object sender, EventArgs e)
         => ButtonStatus = SerialPortList.SelectedItem != null && !string.IsNullOrEmpty(SerialPortList.SelectedItem.ToString());
+        /// <summary>
+        /// This method to enable coonection button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SerialBaudrateList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ButtonStatus)
@@ -243,14 +301,29 @@ namespace Motor_Control_GUI
                 ConnectButton.Enabled = true;
             }
         }
+        /// <summary>
+        /// This method to set RPM
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetRPMValue_Scroll(object sender, EventArgs e)
         {
             RPMText.Text = SetRPMValue.Value.ToString();
         }
+        /// <summary>
+        /// This method to enable change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetRPMValue_ValueChanged(object sender, EventArgs e)
         {
             SetRPMDone = true;
         }
+        /// <summary>
+        /// This method to ensure value is set 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetRPMValue_MouseUp(object sender, MouseEventArgs e)
         {
             if (SetRPMDone)
@@ -264,14 +337,29 @@ namespace Motor_Control_GUI
                 UpdateFileText($"Set RPM to: {i - 0x1}");
             }
         }
+        /// <summary>
+        /// This method to set KI
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetKIValue_Scroll(object sender, EventArgs e)
         {
             KIText.Text = (SetKIValue.Value - 0x65).ToString();
         }
+        /// <summary>
+        /// This method to enable change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetKIValue_ValueChanged(object sender, EventArgs e)
         {
             SetKIDone = true;
         }
+        /// <summary>
+        /// This method to ensure value is set 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetKIValue_MouseUp(object sender, MouseEventArgs e)
         {
             if (SetKIDone)
@@ -284,14 +372,29 @@ namespace Motor_Control_GUI
                 UpdateFileText($"Set KI to: {j - 0x66}");
             }
         }
+        /// <summary>
+        /// This method to set KP
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetKPValue_Scroll(object sender, EventArgs e)
         {
             KPText.Text = (SetKPValue.Value - 0x70).ToString();
         }
+        /// <summary>
+        /// This method to enable change
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetKPValue_ValueChanged(object sender, EventArgs e)
         {
             SetKPDone = true;
         }
+        /// <summary>
+        /// This method to ensure value is set 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetKPValue_MouseUp(object sender, MouseEventArgs e)
         {
             if (SetKPDone)
@@ -304,6 +407,11 @@ namespace Motor_Control_GUI
                 UpdateFileText($"Set KP to: {k - 0x71}");
             }
         }
+        /// <summary>
+        /// This method to turn motor to right
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RightDir_Click(object sender, EventArgs e)
         {
             SendToStm32(Convert.ToChar(0x7B).ToString());
@@ -313,6 +421,11 @@ namespace Motor_Control_GUI
             LeftDir.BackColor = Color.Red;
             NoDir.BackColor = Color.Red;
         }
+        /// <summary>
+        /// This method to turn motor left
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LeftDir_Click(object sender, EventArgs e)
         {
             SendToStm32(Convert.ToChar(0x7C).ToString());
@@ -322,6 +435,11 @@ namespace Motor_Control_GUI
             NoDir.BackColor = Color.Red;
             LeftDir.BackColor = Color.YellowGreen;
         }
+        /// <summary>
+        /// This method to set motor speed off
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NoDir_Click(object sender, EventArgs e)
         {
             SendToStm32(Convert.ToChar(0x7D).ToString());
@@ -331,6 +449,11 @@ namespace Motor_Control_GUI
             LeftDir.BackColor = Color.Red;
             NoDir.BackColor = Color.YellowGreen;
         }
+        /// <summary>
+        /// This method to Reset STM32
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ResetSystem_Click(object sender, EventArgs e)
         {
             ResetSystem.BackColor = Color.Red;
@@ -339,6 +462,11 @@ namespace Motor_Control_GUI
             UpdateFileText($"Reset System");
             ResetSystem.BackColor = SystemColors.Control;
         }
+        /// <summary>
+        /// This method to open a new window app
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void NewItem_Click(object sender, EventArgs e)
         {
             if (SerialCommunicationInfo.IsOpen)
@@ -359,12 +487,22 @@ namespace Motor_Control_GUI
                 Environment.Exit(0);
             }
         }
+        /// <summary>
+        /// This method to auto save serialport text
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveItem_Click(object sender, EventArgs e)
         {
                 StreamWriter writer = new StreamWriter(this.FileName);
                 writer.Write($"{DateTime.Now}: {ReceivedText.Text}{Environment.NewLine}");
                 writer.Close();
         }
+        /// <summary>
+        /// This method to exit the app
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void ExitItem_Click(object sender, EventArgs e)
         {
             if (SerialCommunicationInfo.IsOpen)
@@ -380,6 +518,11 @@ namespace Motor_Control_GUI
                 this.Close();
             }
         }
+        /// <summary>
+        /// This method to save serialport text 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveToItem_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFile = new SaveFileDialog()
@@ -396,6 +539,11 @@ namespace Motor_Control_GUI
                 }
             }
         }
+        /// <summary>
+        /// This method to show about 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AboutItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("This GUI program allows a user to enter a motor values, target-speed," +
