@@ -1,44 +1,69 @@
+/* 
+-----------------------------------------------------------------------------------
+--------------------------
+ *  I2C2 and Initialization Functions and Internal-Use Initialization Functions
+ * 
+-----------------------------------------------------------------------------------
+--------------------------
+ */
 #include "i2c.h"
 #include "registers.h"
 
+// Set the number byte to send and establish the start condtion and confirming the start
 void Start_I2C(int Number_Byte)
 {
-
-CONTROL_REG_I2C2_2 &= ~(0xFF<<16);//number of bytes to transmit = 1
-CONTROL_REG_I2C2_2 |= (Number_Byte<<16)| I2C_CR2_START;//number of bytes to transmit = 1
-while(CONTROL_REG_I2C2_2 &( 0x1UL << 13U)){}; //0x2000UL
-
+// Reset before send the number of byte
+CONTROL_REG_I2C2_2 &= ~(0xFF<<16);
+// Set the number of byte to send and establish the start condition
+CONTROL_REG_I2C2_2 |= (Number_Byte<<16) | I2C_CR2_START;
+// Confirming the satrt condition
+while(CONTROL_REG_I2C2_2 &( 0x1UL << 13U)){};
 }
 
+// Establish the stop condtion and confirming the stop
 void Stop_I2C(void)
 {
-CONTROL_REG_I2C2_2 |= (0x1UL << 14U);    ///0x4000UL
-while(CONTROL_REG_I2C2_2 & (0x1UL << 14U)){}; //0x4000UL
+// Establish the stop condition
+CONTROL_REG_I2C2_2 |= (0x1UL << 14U);
+// Confirming the stop condtion
+while(CONTROL_REG_I2C2_2 & (0x1UL << 14U)){};
 }
 
-
+// Set the number byte write to send 
 void Start_Write(int Number_Byte_Write)
 {
-CONTROL_REG_I2C2_2 &= ~(0x1UL << 10U);   //0x400UL
+// Set the read & write bit to write
+CONTROL_REG_I2C2_2 &= ~(0x1UL << 10U);
+// Set the number byte to send
 Start_I2C(Number_Byte_Write);
 }
 
+// Write abyte to transimitdtat and confirming the txdr not empty
 void Transmit_Byte(uint16_t Byte_Transmit)
 {
+// Write the byte to transmit data register
 TRANSMIT_DATA = Byte_Transmit;
-while(!(STATUS_REG_I2C2 & (0x1UL << 0U))){};  //0x01UL
+// Confirming transmit by making sure the TXDR is empty
+while(!(STATUS_REG_I2C2 & (0x1UL << 0U))){};
 }
 
+// Set the read and write
 void Start_Read(int Number_Byte_Read)
 {
-CONTROL_REG_I2C2_2 |= (0x1UL << 10U); // read operation 0x400UL
+// Set the read & write bit to write
+CONTROL_REG_I2C2_2 |= (0x1UL << 10U);
+// Set the number byte to send
 Start_I2C(Number_Byte_Read);
 }
+
+// read RXNE status and return RXDR
 unsigned char Read_Byte(void)
 {
-while(!(STATUS_REG_I2C2 & (0x1UL << 2U))){};  //0x04UL
+while(!(STATUS_REG_I2C2 & (0x1UL << 2U))){};
 return READ_I2C2;
 }
+
+// Read register address value
 uint8_t Read_Register(long Register_Address)
 {
 Start_Write(1);
@@ -49,6 +74,7 @@ Stop_I2C();
 return Received_Byte;
 }
 
+// calclaute register address value MSB and LSB
 short Value_Register(unsigned char Address_Read)
 {
 short result ;
@@ -56,23 +82,34 @@ result = Read_Register(Address_Read) << 8U | Read_Register(Address_Read);
 return result / 1000;
 }
 
+//retun the final value of register
 void Output_Value(volatile short* Read_Value)
 {
+// Read the address value
 *Read_Value = Value_Register(0x00UL);
 }
 
-// initial i2c
+// Sets up the entire I2c2 device system
 void Init_I2C(void)
 {
-AHB                 |= (0x1UL << 19U);                           //RCC_AHBENR AND GPIOB   0x40000UL
-APB                 |= (0x1UL << 22U);                           //RCC APB1ENR AND I2C        0x400000UL
-MODB                 |= (0x1UL << 23U) | (0x1UL << 27U);          //PIBOB MODER PIN 11  Alternate function mode 10 &  //PIBOB MODER PIN 13  Alternate function mode 10 0x800000UL | 0x8000000UL
-MODB                 &= ~(0x1UL << 22U)| (0x1UL << 26U);          //PIBOB MODER PIN 11  Alternate function mode 10 &  //PIBOB MODER PIN 13  Alternate function mode 10 
-OTYB                 |= (0x1UL << 11U )| (0x1UL << 13U);          //Output open-drain pin 11 & 13 set to 1  0x800UL | 0x2000UL
-PUPB                 |= (0x1UL << 22U) | (0x1UL << 26U);          //Pull-up pin 11 & 13 Pull-up 01:    0x100000UL | 0x1000000UL
-PUPB                 &= (0x1UL << 23U) | (0x1UL << 27U);          //Pull-up pin 11 & 13 Pull-up 01:   
-ALTERNATE_FUNCB_1      |= (0x1UL << 12)  | (0x5UL << 20);           //I2C2_SDA pin 11 I2C2_SCL pin 13   0x1000UL 0x500000UL
-TIMER_REG           |= 0x10402f13UL;                             //I2C TIMING
-CONTROL_REG_I2C2_1       |= (0x1UL << 0U);                            //CR1 ENABLE     0x01UL
-CONTROL_REG_I2C2_2       |= (0x24UL << 1U);                           //savle address in CR2  0x48UL
+// Reset clock control GPIOB enable
+AHB                 |= (0x1UL << 19U);
+// Reset clock control I2C2 enable
+APB                 |= (0x1UL << 22U);
+// PIN 11 & PIN 13  Alternate function mode 10 Note if we use a hex number we can call MODER once
+MODB                 |= (0x1UL << 23U) | (0x1UL << 27U);
+MODB                 &= ~(0x1UL << 22U)| (0x1UL << 26U);
+// Output open-drain pin 11 & 13 set to 1 
+OTYB                 |= (0x1UL << 11U )| (0x1UL << 13U);
+// Pull-up pin 11 & 13  Note if we use a hex number we can call PUPDR once
+PUPB                 |= (0x1UL << 22U) | (0x1UL << 26U);
+PUPB                 &= (0x1UL << 23U) | (0x1UL << 27U);
+// I2C2_SDA pin 11 I2C2_SCL pin 13
+ALTERNATE_FUNCB_1      |= (0x1UL << 12)  | (0x5UL << 20);
+// I2C TIMING
+TIMER_REG           |= 0x10402f13UL;
+// CR1 ENABLE
+CONTROL_REG_I2C2_1       |= (0x1UL << 0U);
+// Set savle ID and left shif by 1
+CONTROL_REG_I2C2_2       |= (0x24UL << 1U);
 }

@@ -9,16 +9,25 @@
  *  Global Variable and Type Declarations
  *  -------------------------------------------------------------------------------------------------------------
  */
-extern volatile int16_t Error_Integral;    // Integrated error signal
-extern volatile uint8_t Duty_Cycle;    // Output PWM duty cycle
-extern volatile int16_t Target_Rpm;    // Desired speed target
-extern volatile int16_t Motor_Speed;   // Measured motor speed
-extern volatile int16_t Error;         // Speed error signal
-extern volatile uint8_t Kp;            // Proportional gain
-extern volatile uint8_t Ki;            // Integral gain
-extern volatile uint8_t Direction;     // Motor Direction
-extern volatile uint8_t Out_Put_Speed ;
+// Integrated error signal
+extern volatile int16_t Error_Integral;
+// Desired speed target
+extern volatile int16_t Target_Rpm;
+// Measured motor speed
+extern volatile int16_t Motor_Speed;
+// Speed Error signal
+extern volatile int16_t Error;
+// Proportional gain
+extern volatile uint8_t Kp;
+// Integral gain
+extern volatile uint8_t Ki;
+// Motor Direction
+extern volatile uint8_t Direction;
+// Display speed
+extern volatile uint8_t Out_Put_Speed;
+// Output
 extern volatile int16_t Output;
+
 /* -------------------------------------------------------------------------------------------------------------
  *  Motor Control and Initialization Functions
  * -------------------------------------------------------------------------------------------------------------
@@ -44,8 +53,6 @@ void Init_PWM(void);
 
 // Sets up encoder interface to read motor speed
 void Init_ENCODER(void);
-
-
 
 #endif /* MOTOR_H_ */
 
