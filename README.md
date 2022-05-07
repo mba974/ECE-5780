@@ -25,7 +25,7 @@ C# language: I have created a GUI to be able controlled encoder dc motor such as
 
 
 
-# flow chart:
+# Flow Chart:
 
 ```mermaid
 graph TD;
