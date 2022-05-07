@@ -22,3 +22,20 @@ C# language: I have created a GUI to be able controlled encoder dc motor such as
 # Time Expenditures:
 
 1. Final Mini Project: Predicted Hours:35  Actual Hours: 4 weeks
+
+# Overview of the Final Mini Project
+
+Here is a simple flow chart:
+
+```mermaid
+graph TD;
+Reset --> |ENABLE|STM32
+STM32 --> |TXD| GUI;
+GUI   --> |RXD| STM32
+STM32 --> |PWM| MOTOR
+STM32 --> |DIRECTION| MOTOR
+STM32 --> |TURN ON| LEDS
+MOTOR --> |SPEED| STM32
+STM32 <--> |SCL| ANGEL-SENSOR
+ANGEL-SENSOR <-->  |SDA| STM32
+```
