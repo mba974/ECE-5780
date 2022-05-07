@@ -3,7 +3,7 @@ Author:     Mohammed Al-Heidous
 Partner:    None
 Date:       4-4-2022
 Course:     ECE 5780, University of Utah, School of Computing
-GitHub ID:  
+GitHub ID:  m.a974
 Repo:       https://github.com/mba974/ECE-5780.git
 Commit #:  
 Project:   encoder motor control
