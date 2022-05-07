@@ -6,7 +6,7 @@ Course:     ECE 5780, University of Utah, School of Computing
 GitHub ID:  
 Repo:       https://github.com/mba974/ECE-5780.git
 Commit #:  
-Project:   Final Mini Project
+Project:   encoder motor control
 Copyright:  ECE5780 and Mohammed Al-Heidous - This work may not be copied for use in Academic Coursework.
 ```
 
