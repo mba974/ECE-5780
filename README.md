@@ -23,7 +23,12 @@ C# language: I have created a GUI to be able controlled encoder dc motor such as
 
 1. Final Mini Project: Predicted Hours:35  Actual Hours: 4 weeks
 
-
+# Devices:
+STM32F072B-DISCO
+L298N Motor Drive Controller Board DC H-Bridge
+USB-UART (WITMOTION USB-UART 6-in-1 USB to Serial Converter)
+AG966-07E: ASR012 I2C/PWM Smart TMR Angle Sensor breakout board
+12528: 8 mm Dia. x 8 mm Thick Diametrically-Magnetized Magnet	
 
 # Flow Chart:
 
