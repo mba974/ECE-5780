@@ -23,9 +23,9 @@ C# language: I have created a GUI to be able controlled encoder dc motor such as
 
 1. Final Mini Project: Predicted Hours:35  Actual Hours: 4 weeks
 
-# Overview of the Final Mini Project
 
-Here is a simple flow chart:
+
+# flow chart:
 
 ```mermaid
 graph TD;
